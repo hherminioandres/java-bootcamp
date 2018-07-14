@@ -15,3 +15,5 @@ hs_err_pid*
 .project
 .classpath
 target/classes/META-INF/maven/com.Maven/java-bootcamp/pom.properties
+/target/
+/bin/
