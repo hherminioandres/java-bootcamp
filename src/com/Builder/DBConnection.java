@@ -39,8 +39,9 @@ public class DBConnection {
 		return true;
 	}
 	public void connect() {
-		if(this.connect(user, password))
+		if(this.connect(user, password)) {
 			System.out.println("Connection established to the DataBase");
+		}
 	}
 	
 }

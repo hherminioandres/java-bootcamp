@@ -3,12 +3,15 @@ package com.AbstractFactory;
 public class SQLConnectionFactory {
 	
 	public AbstractSQLDB getConnection(String motor){
-		if(motor.equalsIgnoreCase("MySQL"))
+		if(Constant.MYSQL.equalsIgnoreCase(motor)) {
 			return new MySQL();
-		if(motor.equalsIgnoreCase("OracleSQL"))
+		}
+		if(Constant.ORACLESQL.equalsIgnoreCase(motor)) {
 			return new OracleSQL();
-		if(motor.equalsIgnoreCase("PostgreSQL"))
+		}
+		if(Constant.POSTGRESQL.equalsIgnoreCase(motor)) {
 			return new PostgreSQL();
+		}
 		return null;
 	}
 }
