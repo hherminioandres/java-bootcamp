@@ -2,14 +2,18 @@ package com.AbstractFactory;
 
 public class SQLConnectionFactory {
 	
+	static final String ORACLESQL = "OracleSQL";
+	static final String POSTGRESQL = "PostgreSQL";
+	static final String	MYSQL = "MySQL";
+	
 	public AbstractSQLDB getConnection(String motor){
-		if(Constant.MYSQL.equalsIgnoreCase(motor)) {
+		if(MYSQL.equalsIgnoreCase(motor)) {
 			return new MySQL();
 		}
-		if(Constant.ORACLESQL.equalsIgnoreCase(motor)) {
+		if(ORACLESQL.equalsIgnoreCase(motor)) {
 			return new OracleSQL();
 		}
-		if(Constant.POSTGRESQL.equalsIgnoreCase(motor)) {
+		if(POSTGRESQL.equalsIgnoreCase(motor)) {
 			return new PostgreSQL();
 		}
 		return null;

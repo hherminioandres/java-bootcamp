@@ -1,15 +1,19 @@
 package com.AbstractFactory;
 
 public class JDBC extends SQLFactory {
+	
+	static final String ORACLESQL = "OracleSQL";
+	static final String POSTGRESQL = "PostgreSQL";
+	static final String	MYSQL = "MySQL";
 
 	public AbstractSQLDB getDB(String db) {
-		if(Constant.MYSQL.equalsIgnoreCase(db)) {
+		if(MYSQL.equalsIgnoreCase(db)) {
 			return new MySQL();
 		}
-		if(Constant.ORACLESQL.equalsIgnoreCase(db)) {
+		if(ORACLESQL.equalsIgnoreCase(db)) {
 			return new OracleSQL();
 		}
-		if(Constant.POSTGRESQL.equalsIgnoreCase(db)) {
+		if(POSTGRESQL.equalsIgnoreCase(db)) {
 			return new PostgreSQL();
 		}
 		return null;

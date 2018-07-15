@@ -2,11 +2,18 @@ package com.AbstractFactory;
 
 public class AbstractFactory {
 	
+	static final String JDBC = "JDBC";
+	static final String OLEBD = "OLEDB"; 
+	static final String ORACLESQL = "OracleSQL";
+	static final String POSTGRESQL = "PostgreSQL";
+	static final String	MYSQL = "MySQL";
+	static final String SQLSERVER = "SQLServer";
+	
 	public SQLFactory getConnection(String acc) {
-		if(Constant.JDBC.equalsIgnoreCase(acc)) {
+		if(JDBC.equalsIgnoreCase(acc)) {
 			return new JDBC();
 		}
-		if(Constant.OLEBD.equalsIgnoreCase(acc)) {
+		if(OLEBD.equalsIgnoreCase(acc)) {
 			return new OLEDB();
 		}
 		return null;
@@ -18,12 +25,21 @@ public class AbstractFactory {
 		 * OLEDB -> SQLServer
 		 **/
 		AbstractFactory af = new AbstractFactory();
-		SQLFactory sqlf = af.getConnection(Constant.JDBC);
-		AbstractSQLDB sqldb = sqlf.getDB(Constant.ORACLESQL);
+		SQLFactory sqlf = af.getConnection(JDBC);
+		AbstractSQLDB sqldb = sqlf.getDB(ORACLESQL);
 		sqldb.connect();
 		
-		sqlf = af.getConnection(Constant.OLEBD);
-		sqldb = sqlf.getDB(Constant.SQLSERVER);
+		sqlf = af.getConnection(OLEBD);
+		sqldb = sqlf.getDB(SQLSERVER);
 		sqldb.connect();
+		
+		sqlf = af.getConnection(JDBC);
+		sqldb = sqlf.getDB(POSTGRESQL);
+		sqldb.connect();
+		
+		sqlf = af.getConnection(JDBC);
+		sqldb = sqlf.getDB(MYSQL);
+		sqldb.connect();
+		
 	}
 }
