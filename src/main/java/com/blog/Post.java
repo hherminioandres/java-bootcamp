@@ -22,4 +22,7 @@ public class Post {
 	public Date getDate() {
 		return date;
 	}
+	public String toString() {
+		return "Title: "+ title + '\n' + info + '\n' + date.toString()+'\n'; 
+	}
 }
