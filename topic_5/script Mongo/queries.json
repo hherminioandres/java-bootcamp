@@ -1,0 +1,5 @@
+//Fetch all courses ordered by name for a given teacher.
+db.course.find({ teacher: "mn001"},{ teacher: 0}).sort({ _id: 1}).pretty();
+
+//Fetch all students whose notes in a specific course were greater than 4.
+db.student.find({$and: [{'historical.course': "Algebra"},{'historical.final': { $gt: 3 }}]},{firstname: 1, lastname: 1,'historical.course': 1 , 'historical.final': 1, _id: 0}).pretty();
