@@ -2,7 +2,7 @@ db.course.insert({
     _id: "Math",
     hours: 6,
     teacher: "mn001",
-    escheduler: [{
+    scheduler: [{
         day: "Tuesday",
         begin: "08:00",
         end: "11:00"
@@ -16,7 +16,7 @@ db.course.insert([{
     _id: "Algebra",
     hours: 9,
     teacher: "mn001",
-    escheduler: [{
+    scheduler: [{
             day: "Monday",
             begin: "08:00",
             end: "11:00"
@@ -33,7 +33,7 @@ db.course.insert([{
     _id: "Literature",
     hours: 6,
     teacher: "mn003",
-    escheduler: [{
+    scheduler: [{
             day: "Monday",
             begin: "14:30",
             end: "17:30"
@@ -46,7 +46,7 @@ db.course.insert([{
     _id: "Philosophy",
     hours: 6,
     teacher: "mn002",
-    escheduler: [{
+    scheduler: [{
             day: "Monday",
             begin: "08:00",
             end: "11:00"

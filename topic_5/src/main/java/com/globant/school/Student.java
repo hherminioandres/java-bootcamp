@@ -1,14 +1,13 @@
 package com.globant.school;
 
 import java.util.ArrayList;
-
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Property;
 
 /**
- * 
+ * This class represents a student
  * @author Herminio Andres Hernandez
  * @version 29-07-2018
  */

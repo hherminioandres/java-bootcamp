@@ -3,8 +3,9 @@ package com.globant.school;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Property;
+
 /**
- * This class represents a course history into student. Record contains course name and calcifications of the three partials and final.
+ * This class represents a course history into student. Record contains course name and notes of the three partials and final.
  * @author Herminio Andres Hernandez
  * @version 29-07-2018
  */
