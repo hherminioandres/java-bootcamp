@@ -1,0 +1,177 @@
+db.student.insert([
+    {
+        _id: "stt_001", 
+        firstname: "Maria",
+        lastname: "Lucero",
+        birth: "1995-07-16",
+        historical: [
+            {
+                _id: "Algebra",
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 7
+            },{
+                _id: "Philosophy",
+                partial1: 4,
+                partial2: 4,
+                partial3: 5,
+                final: 2
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    },{
+        _id: "stt_002", 
+        firstname: "Marta",
+        lastname: "Brocca",
+        birth: "1993-08-07",
+        historical: [
+            {
+                _id: "Algebra",
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 2
+            },{
+                _id: "Philosophy",
+                partial1: 4,
+                partial2: 4,
+                partial3: 5,
+                final: 2
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    },{
+        _id: "stt_003", 
+        firstname: "Pedro",
+        lastname: "Perez",
+        birth: "1995-10-16",
+        historical: [
+            {
+                _id: "Algebra",
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 2
+            },{
+                _id: "Philosophy",
+                partial1: 4,
+                partial2: 4,
+                partial3: 5,
+                final: 2
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    },{
+        _id: "stt_004", 
+        firstname: "Esteban",
+        lastname: "Hordan",
+        birth: "1994-01-05",
+        historical: [
+            {
+                _id: "Algebra",
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 7
+            },{
+                _id: "Philosophy",
+                partial1: 4,
+                partial2: 4,
+                partial3: 5,
+                final: 2
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    },{
+        _id: "stt_005", 
+        firstname: "Juan",
+        lastname: "Gonzalez",
+        birth: "1996-05-25",
+        historical: [
+            {
+                _id: "Algebra",
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 7
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    },{
+        _id: "stt_006", 
+        firstname: "Lucio",
+        lastname: "Peralta",
+        birth: "1995-05-17",
+        historical: [
+            {
+                _id: "Algebra",
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 7
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    },{
+        _id: "stt_007", 
+        firstname: "Roberto",
+        lastname: "Romero",
+        birth: "1995-12-14",
+        historical: [
+            {
+                _id: "Algebra",
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 1
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    },{
+        _id: "stt_008", 
+        firstname: "Soledad",
+        lastname: "Canditta",
+        birth: "1993-04-01",
+        historical: [
+            {
+                _id: "Algebra",
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 4
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    },{
+        _id: "stt_009", 
+        firstname: "Victoria",
+        lastname: "Echevere",
+        birth: "1993-09-23",
+        historical: [
+            {
+                _id: "Algebra", 
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 7
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    },{
+        _id: "stt_010",
+        firstname: "'Nicolas",
+        lastname: "Merdan",
+        birth: "1993-08-14",
+        historical: [
+            {
+                _id: "Algebra",
+                partial1: 4,
+                partial2: 4,
+                partial3: 4,
+                final: 10
+            }
+        ],
+        study: ["Literature", "Algebra", "Philosophy"]
+    }
+]);

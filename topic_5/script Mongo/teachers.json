@@ -1,0 +1,30 @@
+db.teacher.insert([{
+    _id: "mn001",
+    firstname: "Julia",
+    lastname: "Rodriguez",
+    birth: "1985-07-03",
+    courses: [
+        {
+            name: "Math"
+        },{
+            name: "Algebra"
+        }]
+},{
+    _id: "mn002",
+    firstname: "Juan Luis",
+    lastname: "Diaz",
+    birth: "1990-08-21",
+    courses: [
+        {
+            name: "Literature"
+        }]
+},{
+    _id: "MN003",
+    firstname: "Marcela",
+    lastname: "Pedersen",
+    birth: "1988-08-17",
+    courses: [
+        {
+            name: "Philosophy"
+        }]
+}]);
