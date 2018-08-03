@@ -2,8 +2,6 @@ package com.globant.user;
 
 import java.util.Hashtable;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 /**
  * This class represents an user repository. This repository allows to create and save new users
  * @author Herminio Andres Hernandez
