@@ -1,0 +1,121 @@
+openapi: 3.0.1
+info:
+  title: Shopping Cart
+  description: The Shopping Cart API represent a given shopping cart. This cart contains few products to buy  
+  version: '0.1'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /shoppingcart/calculate:
+    get:
+      description: Value of all products into the cart
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+  /shoppingcart/getProduct:
+    get:
+      description: get a given product through his unique code
+      parameters:
+        - name: code
+          in: query
+          schema:
+            type: string
+          example: '2002'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+        '400':
+          description: Required String parameter 'code' is not present
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+  /shoppingcart/getProducts:
+    get:
+      description: Get all products into the cart
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+  /shoppingcart/deleteProduct:
+    delete:
+      description: Remove a given product from the cart
+      parameters:
+        - name: code
+          in: query
+          schema:
+            type: string
+          example: '2002'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Required String parameter 'code' is not present
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+  /shoppingcart/addProduct:
+    put:
+      description: Add product to cart
+      parameters:
+        - name: code
+          in: query
+          schema:
+            type: string
+          example: '1004'
+        - name: name
+          in: query
+          schema:
+            type: string
+          example: product
+        - name: value
+          in: query
+          schema:
+            type: string
+          example: 100f
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+        '400':
+          description: parameter is not present(:) float 'value', string 'name' and/or string 'code'
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}

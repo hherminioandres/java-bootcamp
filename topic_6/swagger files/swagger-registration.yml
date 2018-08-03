@@ -1,0 +1,129 @@
+openapi: 3.0.1
+info:
+  title: defaultTitle
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /registration/createUser:
+    put:
+      description: Create user to registration. Information necessary (:) unique nickname, firstname, lastname, email and password
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+          example: lucio
+        - name: user
+          in: query
+          schema:
+            type: string
+          example: lucio.martin
+        - name: email
+          in: query
+          schema:
+            type: string
+          example: lucio.martin@gmail.com
+        - name: lastname
+          in: query
+          schema:
+            type: string
+          example: martin
+        - name: pass
+          in: query
+          schema:
+            type: string
+          example: lucio1234
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+        '400':
+          description: parameter is not present(:) string 'name', string 'user', string 'lastname', string 'email' and/or string 'pass'
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+  /registration/deleteUser:
+    delete:
+      description: Remove user from the repository
+      parameters:
+        - name: user
+          in: query
+          schema:
+            type: string
+          example: mateo
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+        '400':
+          description: parameter is not present(:) string 'user'
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+  /registration/findRealName:
+    get:
+      description: Find user through its real identity (:) firstname and lastname
+      parameters:
+        - name: firstname
+          in: query
+          schema:
+            type: string
+          example: demis
+        - name: lastname
+          in: query
+          schema:
+            type: string
+          example: martin
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+        '400':
+          description: parameter is not present(:) string 'firstname' and/or string 'lastname'
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+  /registration/findUser:
+    get:
+      description: Find user through its code
+      parameters:
+        - name: user
+          in: query
+          schema:
+            type: string
+          example: lucioUser02
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+        '400':
+          description: parameter is not present(:) string 'user'
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
