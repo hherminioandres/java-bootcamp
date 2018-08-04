@@ -2,3 +2,11 @@
 topic_4/.classpath
 topic_4/.project
 *.prefs
+*.properties
+*.jar
+*.class
+*.classpath
+*.project
+topic_6/mvnw
+topic_6/mvnw.cmd
+topic_6/bin/

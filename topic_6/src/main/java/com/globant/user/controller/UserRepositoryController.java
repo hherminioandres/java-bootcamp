@@ -31,7 +31,7 @@ public class UserRepositoryController {
 	@RequestMapping(value = "/deleteUser/{user}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteUser(@PathVariable("user") String user) {
-		 userRepository.deleteUser(user);
+		userRepository.deleteUser(user);
 	}
 	@RequestMapping(value = "/findUser/{user}", method = RequestMethod.GET)
 	@ResponseBody

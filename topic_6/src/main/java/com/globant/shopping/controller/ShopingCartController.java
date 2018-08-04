@@ -20,7 +20,7 @@ import com.globant.shopping.ShoppingCart;
 @Controller
 @RequestMapping("/shoppingcart")
 public class ShopingCartController {
-
+	
 	ShoppingCart shoppingCart = new ShoppingCart();
 	
 	@RequestMapping(path = "/calculate")
@@ -32,26 +32,26 @@ public class ShopingCartController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public Product create(@RequestBody Product product) {
-	    return shoppingCart.addProduct(product);
+		return shoppingCart.addProduct(product);
 	}
 	@RequestMapping(path = "/deleteProduct/{code}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("code") String code) {
-    	shoppingCart.deleteProduct(code);
-    }
-    @RequestMapping(path = "/getProducts", method = RequestMethod.GET)
-    @ResponseBody
+	public void delete(@PathVariable("code") String code) {
+		shoppingCart.deleteProduct(code);
+	}
+	@RequestMapping(path = "/getProducts", method = RequestMethod.GET)
+	@ResponseBody
 	public ArrayList<Product> getProducts(){
 		return shoppingCart.getProducts();
-	}  
-    @RequestMapping(path = "/getProduct/{code}", method = RequestMethod.GET)
-    @ResponseBody
+	}
+	@RequestMapping(path = "/getProduct/{code}", method = RequestMethod.GET)
+	@ResponseBody
 	public Product getProduct(@PathVariable("code") String code) {
 		return shoppingCart.getProduct(code);
 	}
-    @RequestMapping(path = "/getQuantity", method = RequestMethod.GET)
-    @ResponseBody
-    public int getQuantity() {
-    	return shoppingCart.productQuantity();
-    }
+	@RequestMapping(path = "/getQuantity", method = RequestMethod.GET)
+	@ResponseBody
+	public int getQuantity() {
+		return shoppingCart.productQuantity();
+	}
 }
