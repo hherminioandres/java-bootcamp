@@ -1,0 +1,98 @@
+openapi: 3.0.1
+info:
+  title: defaultTitle
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /registration/createUser:
+    post:
+      description: Create user to registration. Information necessary (:) unique nickname, firstname, lastname, email and password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                password:
+                  type: string
+                mail:
+                  type: string
+                user:
+                  type: string
+                lastname:
+                  type: string
+            examples:
+              '0':
+                value: {
+                        "firstname" : "user_firstname",
+                        "lastname" : "user_lastname",
+                        "user" : "user_user",
+                        "mail" : "user@mail.com",
+                        "password" : "pass"
+                }
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Data not availabe to create user
+  /registration/findRealName/firstname/lastname:
+    get:
+      description: Find user through its real identity (:) firstname and lastname
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Data not availabe to create user
+  /registration/deleteUser/user:
+    delete:
+      description: Delete user
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Parameter is not present
+  /registration/updateUser:
+    put:
+      description: Update user's information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                password:
+                  type: string
+                mail:
+                  type: string
+                user:
+                  type: string
+                lastname:
+                  type: string
+            examples:
+              '0':
+                value: {
+                        "firstname" : "user_firstname",
+                        "lastname" : "user_lastname",
+                        "user" : "user_user",
+                        "mail" : "user@mail.com",
+                        "password" : "pass"
+                }
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Data not availabe to update user
+  /registration/findUser/user:
+    get:
+      description: Find user through its unique user
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Parameter is not present

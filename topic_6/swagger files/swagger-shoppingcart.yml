@@ -1,0 +1,69 @@
+openapi: 3.0.1
+info:
+  title: Shopping Cart
+  description: The Shopping Cart API represent a given shopping cart. This cart contains few products to buy  
+  version: '0.1'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /shoppingcart/calculate:
+    get:
+      description: Value of all products into the cart
+      responses:
+        '200':
+          description: OK
+  /shoppingcart/getProduct/code:
+    get:
+      description: get a given product through his unique code
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Required parameter 'code' is not present
+  /shoppingcart/getProducts:
+    get:
+      description: Get all products into the cart
+      responses:
+        '200':
+          description: OK
+  /shoppingcart/getQuantity:
+    get:
+      description: Get queantity products into the cart
+      responses:
+        '200':
+          description: Ok
+  /shoppingcart/createProduct:
+    post:
+      description: Add product to cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                name:
+                  type: string
+                value:
+                  type: number
+            examples:
+              '0':
+                value: {
+                  "code" : "product_code",
+                  "name" : "product_name",
+                  "value" : 50.5
+                }
+      responses:
+        '201':
+          description: Ok
+        '400':
+          description: no data available to create product
+  /shoppingcart/deleteProduct/code:
+    delete:
+      description: Delete product from cart
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Required String parameter 'code' is not present
