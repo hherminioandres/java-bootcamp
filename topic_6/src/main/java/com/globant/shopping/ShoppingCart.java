@@ -3,7 +3,7 @@ package com.globant.shopping;
 import java.util.ArrayList;
 
 /**
- * This class defines behavior of shopping cart. Allows to add and remove products in the cart and get its total value.
+ * This class defines behavior of shopping cart. Allows to add and remove products in the cart, get its total value and obtain products quantity into the cart.
  * @author Herminio Andres Hernandez
  * @version 21/07/2018
  */
@@ -22,14 +22,14 @@ public class ShoppingCart {
 	 * @param product Product to add.
 	 * @return
 	 */
-	public boolean addProduct(Product product) {
+	public Product addProduct(Product product) {
 		for(Product prod: products) {
 			if(prod.getCode().equals(product.getCode()))
-				return false;
+				return null;
 		}
 		products.add(product);
-		return true;
-	}
+		return product;
+	}	
 	/**
 	 * The method removes a product from the "Products" list (it uses "productCode" to do it).
 	 * @param productCode It's used for searching products on "Products" list. 
@@ -77,5 +77,12 @@ public class ShoppingCart {
 			sum += p.getValue();
 		}
 		return sum;
+	}
+	/**
+	 * The method returns the products quantity into the shopping cart.
+	 * @return "Products" list's size.
+	 */
+	public int productQuantity() {
+		return products.size();
 	}
 }

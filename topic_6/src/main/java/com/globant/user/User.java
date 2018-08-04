@@ -25,7 +25,7 @@ public class User {
 		return firstname;
 	}
 
-	public void setFirtname(String firstname) {
+	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
 	
@@ -46,11 +46,11 @@ public class User {
 		return true;
 	}
 
-	public String getNickname() {
+	public String getUser() {
 		return user;
 	}
 
-	public void setNickname(String userName) {
+	public void setUser(String userName) {
 		this.user = userName;
 	}
 

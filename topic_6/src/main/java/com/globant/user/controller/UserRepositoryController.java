@@ -1,9 +1,13 @@
 package com.globant.user.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import com.globant.user.User;
 import com.globant.user.UserRepository;
 
@@ -12,38 +16,37 @@ import com.globant.user.UserRepository;
  * @author Herminio Andres Hernandez
  * @version 01/08/2018
  */
-@RestController
+@Controller
 @RequestMapping("/registration")
 public class UserRepositoryController {
 
 	UserRepository userRepository = new UserRepository();
 
-	@RequestMapping("/createUser")
-	public boolean createUser(@RequestParam(value="user") String user, @RequestParam(value="name") String name, @RequestParam(value="lastname") String lastname, @RequestParam(value="email") String email, @RequestParam(value="pass") String pass) {
-		return userRepository.addUser(new User(user, name, lastname, email, pass));
+	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public User createUser(@RequestBody User user) {
+		return userRepository.addUser(user);
 	}
-	@RequestMapping("/deleteUser")
-	public boolean deleteUser(@RequestParam(value="user") String user) {
-		return userRepository.deleteUser(user);
+	@RequestMapping(value = "/deleteUser/{user}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteUser(@PathVariable("user") String user) {
+		 userRepository.deleteUser(user);
 	}
-	@RequestMapping("/findUser")
-	public User findUser(@RequestParam(value="user") String user) {
+	@RequestMapping(value = "/findUser/{user}", method = RequestMethod.GET)
+	@ResponseBody
+	public User findUser(@PathVariable("user") String user) {
 		return userRepository.getUser(user);
 	}
-	@RequestMapping("/updateMail")
-	public void updateMail(@RequestParam(value="user") String user, @RequestParam(value="email") String email) {
-		userRepository.updateMail(user, email);
+	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public User updateUser(@RequestBody User user) {
+		return userRepository.updateUser(user);
 	}
-	@RequestMapping("/updateFirstname")
-	public void updateFirstname(@RequestParam(value="user") String user, @RequestParam(value="firstname") String firstname) {
-		userRepository.updateMail(user, firstname);
-	}
-	@RequestMapping("/updateLastname")
-	public void updateLastname(@RequestParam(value="user") String user, @RequestParam(value="lastname") String lastname) {
-		userRepository.updateMail(user, lastname);
-	}
-	@RequestMapping("/findRealName")
-	public User findRealName(@RequestParam(value="firstname") String firstname, @RequestParam(value="lastname") String lastname) {
-		return userRepository.findUserByName(firstname, lastname);
+	@RequestMapping(value = "/findRealName/{firstname}/{lastname}", method = RequestMethod.GET)
+	@ResponseBody
+	public User findRealName(@PathVariable("firstname") String firstname, @PathVariable("lastname") String lastname) {
+		return userRepository.findByRealName(firstname, lastname);
 	}
 }

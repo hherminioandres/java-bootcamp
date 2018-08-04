@@ -1,16 +1,14 @@
 package com.globant.shopping;
 
 /**
- * "Product" has a combination of a unique code, name, description and price, representing a real life product.
+ * "Product" has a combination of a unique code, name and price, representing a real life product.
  * @author Herminio Andres Hernandez
  * @version 21/07/2018 
  */
-
 public class Product {
 	
 	private String code;
 	private String name;
-	private String description;
 	private float value;
 	/**
 	 * Constructor of the Product class. Receive the necessary information by parameter to create the product.
@@ -22,7 +20,6 @@ public class Product {
 		this.code = code;
 		this.name = name;
 		this.value = value;
-		description = "Write description";
 	}//Close constructor.
 	public String getCode() {
 		return code;
@@ -35,12 +32,6 @@ public class Product {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	public float getValue() {
 		return value;

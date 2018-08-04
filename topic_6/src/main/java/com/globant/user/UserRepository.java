@@ -19,12 +19,12 @@ public class UserRepository {
 		return users.get(user);
 	}
 	
-	public boolean addUser(User user) {
-		if(users.containsKey(user.getNickname())){
-			return false;
+	public User addUser(User user) {
+		if(users.containsKey(user.getUser())){
+			return null;
 		}
-		users.put(user.getNickname(), user);
-		return true;
+		users.put(user.getUser(), user);
+		return user;
 	}
 
 	public boolean containUser(String user) {
@@ -43,7 +43,7 @@ public class UserRepository {
 		return users.get(user);
 	}
 	
-	public User findUserByName(String name, String lastname) {
+	public User findByRealName(String name, String lastname) {
 		for(String user: users.keySet()) {
 			if(users.get(user).getFirtname().equals(name) &&
 					users.get(user).getLastname().equals(lastname)) {
@@ -53,28 +53,11 @@ public class UserRepository {
 		return null;
 	}
 	
-	public boolean updateMail(String user, String email) {
-		User userAux = findUserByNick(user);
-		if(userAux != null) {
-			userAux.setEmail(email);
-			return true;
+	public User updateUser(User user) {
+		if(users.containsKey(user.getUser())) {
+			users.put(user.getUser(), user);
+			return user;
 		}
-		return false;
-	}
-	public boolean updateFirstame(String user, String name) {
-		User userAux = findUserByNick(user);
-		if(userAux != null) {
-			userAux.setFirtname(name);
-			return true;
-		}
-		return false;
-	}
-	public boolean updateLastname(String user, String lastname) {
-		User userAux = findUserByNick(user);
-		if(userAux != null) {
-			userAux.setLastname(lastname);
-			return true;
-		}
-		return false;
+		return null;
 	}
 }

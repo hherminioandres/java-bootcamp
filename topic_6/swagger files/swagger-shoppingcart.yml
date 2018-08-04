@@ -12,110 +12,58 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-              examples: {}
-  /shoppingcart/getProduct:
+  /shoppingcart/getProduct/code:
     get:
       description: get a given product through his unique code
-      parameters:
-        - name: code
-          in: query
-          schema:
-            type: string
-          example: '2002'
       responses:
         '200':
-          description: OK
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-              examples: {}
-        '400':
-          description: Required String parameter 'code' is not present
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-              examples: {}
-        '500':
-          description: Internal Server Error
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-              examples: {}
+          description: Ok
+        '404':
+          description: Required parameter 'code' is not present
   /shoppingcart/getProducts:
     get:
       description: Get all products into the cart
       responses:
         '200':
           description: OK
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-              examples: {}
-  /shoppingcart/deleteProduct:
+  /shoppingcart/getQuantity:
+    get:
+      description: Get queantity products into the cart
+      responses:
+        '200':
+          description: Ok
+  /shoppingcart/createProduct:
+    post:
+      description: Add product to cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                name:
+                  type: string
+                value:
+                  type: number
+            examples:
+              '0':
+                value: {
+                  "code" : "product_code",
+                  "name" : "product_name",
+                  "value" : 50.5
+                }
+      responses:
+        '201':
+          description: Ok
+        '400':
+          description: no data available to create product
+  /shoppingcart/deleteProduct/code:
     delete:
-      description: Remove a given product from the cart
-      parameters:
-        - name: code
-          in: query
-          schema:
-            type: string
-          example: '2002'
+      description: Delete product from cart
       responses:
         '200':
           description: Ok
         '400':
           description: Required String parameter 'code' is not present
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-              examples: {}
-        '500':
-          description: Internal Server Error
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-              examples: {}
-  /shoppingcart/addProduct:
-    put:
-      description: Add product to cart
-      parameters:
-        - name: code
-          in: query
-          schema:
-            type: string
-          example: '1004'
-        - name: name
-          in: query
-          schema:
-            type: string
-          example: product
-        - name: value
-          in: query
-          schema:
-            type: string
-          example: 100f
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-              examples: {}
-        '400':
-          description: parameter is not present(:) float 'value', string 'name' and/or string 'code'
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-              examples: {}
