@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import com.globant.FinalProject.DB.MySQLConnection;
+
+import com.globant.FinalProject.DAO.MySQLConnection;
+import com.globant.FinalProject.DTO.DTOBuy;
 import com.globant.FinalProject.user.User;
 
 /**
@@ -53,7 +55,7 @@ public class ShoppingCart {
 	 * @return
 	 * @throws SQLException
 	 */
-	public boolean addProduct(Buy buy) throws SQLException {
+	public boolean addProduct(DTOBuy buy) throws SQLException {
 		int oldQuantity = getQuantityProduct(buy.getIdProduct());
 		boolean result = false;
 		if(oldQuantity > 0) {
@@ -116,20 +118,20 @@ public class ShoppingCart {
 	}
 	/**
 	 * Searches products into PRODUCT table through the products ids that was save here to buy.
-	 * @return
-	 * @throws SQLException
-	 */
+	 *  @return
+	 *  @throws SQLException
+	 **/
 	public ArrayList<Product> getProducts() throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT p.*,c.quantity FROM PRODUCT p INNER JOIN CART c on (p.idProduct=c.idProduct) WHERE c.idUser = ?;");
 		preparedStatement.setString(1, user.getUser());
 		ResultSet result = preparedStatement.executeQuery();
 		ArrayList<Product> products = new ArrayList<Product>();
 		while(result.next()) {
-    		Product productAux = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
-    		productAux.setQuantity(result.getInt("quantity"));
-    		products.add(productAux);
-    	}
-    	return products;
+			Product productAux = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
+			productAux.setQuantity(result.getInt("quantity"));
+			products.add(productAux);
+		}
+		return products;
 	}
 	/**
 	 * This method calculate the buy's value.

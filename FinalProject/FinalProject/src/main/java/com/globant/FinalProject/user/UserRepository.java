@@ -1,10 +1,12 @@
 package com.globant.FinalProject.user;
 
-import com.globant.FinalProject.DB.MySQLConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.globant.FinalProject.DAO.MySQLConnection;
+import com.globant.FinalProject.Repositry.IRepository;
 
 /**
  * This class represents an user repository. The users information is stored into database.
@@ -12,7 +14,7 @@ import java.sql.SQLException;
  * @author Herminio Andres Hernandez
  * @version 01/08/2018
  */
-public class UserRepository {
+public class UserRepository implements IRepository<User>{
 
 	private Connection connection = null;
 	private PreparedStatement preparedStatement = null;
@@ -26,7 +28,7 @@ public class UserRepository {
 	 * @return
 	 * @throws SQLException
 	 */
-	public User addUser(User user) throws SQLException {
+	public User add(User user) throws SQLException {
 		preparedStatement = connection.prepareStatement("INSERT INTO USER(idUser, password, firstname, lastname, email) VALUES (?,?,?,?,?);");
 		preparedStatement.setString(1, user.getUser());
 		preparedStatement.setString(2, user.getPassword());
@@ -45,7 +47,7 @@ public class UserRepository {
 	 * @return
 	 * @throws SQLException
 	 */
-	public User findUser(String idUser) throws SQLException {
+	public User find(String idUser) throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT * FROM USER WHERE idUser = ?;");
 		preparedStatement.setString(1, idUser);
 		ResultSet result = preparedStatement.executeQuery();
@@ -60,7 +62,7 @@ public class UserRepository {
 	 * @param idUser User id to remove
 	 * @throws SQLException
 	 */
-	public void deleteUser(String idUser) throws SQLException {
+	public void delete(String idUser) throws SQLException {
 		preparedStatement = connection.prepareStatement("DELETE FROM USER WHERE idUser=?;");
 		preparedStatement.setString(1, idUser);
 		preparedStatement.executeUpdate();
@@ -89,7 +91,7 @@ public class UserRepository {
 	 * @return
 	 * @throws SQLException
 	 */
-	public User updateUser(User user) throws SQLException {
+	public User update(User user) throws SQLException {
 		preparedStatement = connection.prepareStatement("UPDATE USER SET password=?,firstname=?,lastname=?,email=? WHERE idUser=?;");
 		preparedStatement.setString(1, user.getPassword());
 		preparedStatement.setString(2, user.getFirstname());

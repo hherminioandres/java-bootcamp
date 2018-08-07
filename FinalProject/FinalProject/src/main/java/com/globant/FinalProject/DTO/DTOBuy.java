@@ -1,17 +1,16 @@
-package com.globant.FinalProject.shopping;
+package com.globant.FinalProject.DTO;
 
 /**
  * This class represents a buy that is aggregate into the shopping cart.
- * Just contain idProduct and quantity to buy.
  * @author Herminio Andres Hernandez
  * @version 05/08/2018
  */
-public class Buy {
+public class DTOBuy {
 
 	private String idProduct;
 	private int quantity;
 	
-	public Buy(String idProduct, int quantity) {
+	public DTOBuy(String idProduct, int quantity) {
 		this.idProduct = idProduct;
 		this.quantity = quantity;
 	}

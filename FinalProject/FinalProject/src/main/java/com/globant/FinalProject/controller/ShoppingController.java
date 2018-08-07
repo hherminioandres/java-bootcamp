@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import com.globant.FinalProject.shopping.Buy;
+
+import com.globant.FinalProject.DTO.DTOBuy;
 import com.globant.FinalProject.shopping.ManagerCart;
 import com.globant.FinalProject.shopping.Product;
 import com.globant.FinalProject.shopping.ShoppingCart;
@@ -19,8 +20,7 @@ import com.globant.FinalProject.user.User;
 import com.globant.FinalProject.user.UserRepository;
 
 /**
- * This controller handles the request entry and generates response output that is performed on
- * the shopping center. Allows login and logout user, add products into the cart and pay to the buy.
+ * This controller handles requests for the shopping center
  * @author Herminio Andres Hernandez
  * @version 05/08/2018
  */
@@ -42,7 +42,7 @@ public class ShoppingController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public User login(@RequestBody  Registration registration) throws SQLException {
-		User userLogin = userRepository.findUser(registration.getIdUser());
+		User userLogin = userRepository.find(registration.getIdUser());
 		if(userLogin != null) {
 			if(userLogin.getPassword().equals(registration.getPassword())) {
 				currentUser = userLogin;
@@ -70,8 +70,7 @@ public class ShoppingController {
 	@RequestMapping(path = "/cart", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public boolean add(@RequestBody Buy buy) throws SQLException {
-		//Product product = productRepository.findProduct();
+	public boolean add(@RequestBody DTOBuy buy) throws SQLException {
 		return shoppingCart.addProduct(buy);
 	}
 	

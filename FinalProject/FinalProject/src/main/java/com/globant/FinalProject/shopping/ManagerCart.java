@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import com.globant.FinalProject.DAO.MySQLConnection;
+
 import java.sql.Date;
-import com.globant.FinalProject.DB.MySQLConnection;
 
 /**
  * This class handles the cart after paying for the buy. Generates the tickets that

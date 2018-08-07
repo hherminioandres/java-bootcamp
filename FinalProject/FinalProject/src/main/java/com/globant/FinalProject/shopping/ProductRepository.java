@@ -5,14 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import com.globant.FinalProject.DB.MySQLConnection;
+import java.util.List;
+
+import com.globant.FinalProject.DAO.MySQLConnection;
+import com.globant.FinalProject.Repositry.IRepository;
 
 /**
  * This repository save into database all information of the products, allows to create, delete and update products.
  * @author her_1
  *
  */
-public class ProductRepository {
+public class ProductRepository implements IRepository<Product> {
 	
 	private Connection connection = null;
 	private PreparedStatement preparedStatement = null;
@@ -26,7 +29,7 @@ public class ProductRepository {
 	 * @return 
 	 * @throws SQLException
 	 */
-	public Product addProduct(Product product) throws SQLException {
+	public Product add(Product product) throws SQLException {
 		preparedStatement = connection.prepareStatement("INSERT INTO PRODUCT(idProduct, name, category, value) VALUES (?,?,?,?);");
 		preparedStatement.setString(1, product.getIdProduct());
 		preparedStatement.setString(2, product.getName());
@@ -44,7 +47,7 @@ public class ProductRepository {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Product findProduct(String idProduct) throws SQLException {
+	public Product find(String idProduct) throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT WHERE idProduct = ?;");
 		preparedStatement.setString(1, idProduct);
 		ResultSet result = preparedStatement.executeQuery();
@@ -60,7 +63,7 @@ public class ProductRepository {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Product updateProduct(Product product) throws SQLException {
+	public Product update(Product product) throws SQLException {
 		preparedStatement = connection.prepareStatement("UPDATE PRODUCT SET name=?,category=?,value=? WHERE idProduct=?;");
 		preparedStatement.setString(1, product.getName());
 		preparedStatement.setString(2, product.getCategory());
@@ -77,7 +80,7 @@ public class ProductRepository {
 	 * @param idProduct
 	 * @throws SQLException
 	 */
-	public void deleteProduct(String idProduct) throws SQLException {
+	public void delete(String idProduct) throws SQLException {
 		preparedStatement = connection.prepareStatement("DELETE FROM PRODUCT WHERE idProduct=?;");
 		preparedStatement.setString(1, idProduct);
 		preparedStatement.executeUpdate();
@@ -88,7 +91,7 @@ public class ProductRepository {
 	 * @return List of products
 	 * @throws SQLException
 	 */
-	public ArrayList<Product> findByCategory(String category) throws SQLException {
+	public List<Product> findByCategory(String category) throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT WHERE category =?;");
 		preparedStatement.setString(1, category);
 		ResultSet result = preparedStatement.executeQuery();
@@ -104,7 +107,7 @@ public class ProductRepository {
 	 * @return 
 	 * @throws SQLException
 	 */
-	public ArrayList<Product> getProducts() throws SQLException {
+	public List<Product> getProducts() throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT;");
 		ResultSet result = preparedStatement.executeQuery();
 		ArrayList<Product> products = new ArrayList<Product>();

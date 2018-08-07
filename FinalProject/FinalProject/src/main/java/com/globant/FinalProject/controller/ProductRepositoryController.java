@@ -1,7 +1,7 @@
 package com.globant.FinalProject.controller;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,14 +14,12 @@ import com.globant.FinalProject.shopping.Product;
 import com.globant.FinalProject.shopping.ProductRepository;
 
 /**
- * This controller handle requests and responses of products repository.
- * The methods of this class allow add, delete, update and find products
- * per different variables: Product and category.
+ * This controller handles requests for the product repository.
  * @author Herminio Andres Hernandez
  * @version 04/08/2018
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/api/products")
 public class ProductRepositoryController {
 
 	static ProductRepository productRepository = null;
@@ -30,42 +28,42 @@ public class ProductRepositoryController {
 		productRepository = getRepository();
 	}
 	
-	@RequestMapping(value = "/products", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public Product createUser(@RequestBody Product product) throws SQLException {
-		return productRepository.addProduct(product);
+		return productRepository.add(product);
 	}
 	
-	@RequestMapping(value = "/products/{idProduct}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{idProduct}", method = RequestMethod.GET)
 	@ResponseBody
 	public Product findUser(@PathVariable("idProduct") String idProduct) throws SQLException {
-		return productRepository.findProduct(idProduct);
+		return productRepository.find(idProduct);
 	}
 	
-	@RequestMapping(value = "/products", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public ArrayList<Product> getProducts() throws SQLException {
+	public List<Product> getProducts() throws SQLException {
 		return productRepository.getProducts();
 	}
 	
-	@RequestMapping(path = "/products/category/{category}", method = RequestMethod.GET)
+	@RequestMapping(path = "/category/{category}", method = RequestMethod.GET)
 	@ResponseBody
-	public ArrayList<Product> findCategory(@PathVariable("category") String category) throws SQLException{
+	public List<Product> findCategory(@PathVariable("category") String category) throws SQLException{
 		return productRepository.findByCategory(category);
 	}
 	
-	@RequestMapping(value = "/products", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public Product updateUser(@RequestBody Product product) throws SQLException {
-		return productRepository.updateProduct(product);
+		return productRepository.update(product);
 	}
 	
-	@RequestMapping(value = "/products/{idProduct}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{idProduct}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteUser(@PathVariable("idProduct") String idProduct) throws SQLException {
-		productRepository.deleteProduct(idProduct);
+		productRepository.delete(idProduct);
 	}
 	
 	public static ProductRepository getRepository() throws SQLException{

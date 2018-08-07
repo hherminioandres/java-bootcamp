@@ -1,4 +1,4 @@
-package com.globant.FinalProject.DB;
+package com.globant.FinalProject.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +10,8 @@ import java.sql.SQLException;
  */
 public class MySQLConnection {
 	private static String URL = "jdbc:mysql://localhost/shoppingdb";
-	private static String USER = "jdbc:mysql://localhost/shoppingdb";
-	private static String PASS = "jdbc:mysql://localhost/shoppingdb";
+	private static String USER = "root";
+	private static String PASS = "1234";
 	public static Connection connection = null;
 
 	public static Connection getConnection() throws SQLException {
