@@ -1,0 +1,97 @@
+openapi: 3.0.1
+info:
+  title: defaultTitle
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /products/idProduct:
+    get:
+      description: Get a given product
+      responses:
+        '200':
+          description: Ok
+    delete:
+      description: Remove a given product to repository
+      responses:
+        '200':
+          description: Ok
+        '405':
+          description: Method not supported. Not exists idProduct as parameter
+  /products:
+    get:
+      description: All product into the repository
+      responses:
+        '200':
+          description: Ok
+    put:
+      description: Update product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                name:
+                  type: string
+                idProduct:
+                  type: string
+                category:
+                  type: string
+                value:
+                  type: integer
+            examples:
+              '0':
+                value: |2-
+                      {
+                          "idProduct": "005",
+                          "name": "productName",
+                          "category": "productCategory",
+                          "value": 50,
+                          "quantity": 100
+                      }
+      responses:
+        '200':
+          description: Ok
+    post:
+      description: Add new product to repository 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                name:
+                  type: string
+                idProduct:
+                  type: string
+                category:
+                  type: string
+                value:
+                  type: integer
+            examples:
+              '0':
+                value: |2-
+                      {
+                          "idProduct": "005",
+                          "name": "productName",
+                          "category": "productCategory",
+                          "value": 50,
+                          "quantity": 100
+                      }
+      responses:
+        '201':
+          description: Ok
+        '400':
+          description: Data not found
+  /products/category/categoryName:
+    get:
+      description: Find products by category
+      responses:
+        '200':
+          description: Ok
