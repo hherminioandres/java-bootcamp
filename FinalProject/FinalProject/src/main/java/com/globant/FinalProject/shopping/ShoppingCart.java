@@ -40,10 +40,10 @@ public class ShoppingCart {
 		preparedStatement = connection.prepareStatement("SELECT quantity FROM CART WHERE (idProduct=? AND idUser = ?)");
 		preparedStatement.setString(1, idProduct);
 		preparedStatement.setString(2, user.getUser());
-    	ResultSet result = preparedStatement.executeQuery();
-    	if(result.first()) {
-    		count = result.getInt("quantity");
-    	}
+		ResultSet result = preparedStatement.executeQuery();
+		if(result.first()) {
+			count = result.getInt("quantity");
+		}
 		return count;
 	}
 	/**
@@ -122,9 +122,9 @@ public class ShoppingCart {
 	public ArrayList<Product> getProducts() throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT p.*,c.quantity FROM PRODUCT p INNER JOIN CART c on (p.idProduct=c.idProduct) WHERE c.idUser = ?;");
 		preparedStatement.setString(1, user.getUser());
-    	ResultSet result = preparedStatement.executeQuery();
-    	ArrayList<Product> products = new ArrayList<Product>();
-    	while(result.next()) {
+		ResultSet result = preparedStatement.executeQuery();
+		ArrayList<Product> products = new ArrayList<Product>();
+		while(result.next()) {
     		Product productAux = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
     		productAux.setQuantity(result.getInt("quantity"));
     		products.add(productAux);
@@ -140,10 +140,10 @@ public class ShoppingCart {
 		float sum = 0;
 		preparedStatement = connection.prepareStatement("SELECT SUM(p.value*c.quantity) as \"sum\" FROM PRODUCT p INNER JOIN CART c on (p.idProduct=c.idProduct) WHERE c.idUser = ?;");
 		preparedStatement.setString(1, user.getUser());
-    	ResultSet result = preparedStatement.executeQuery();
-    	if(result.first()) {
-    		sum = result.getInt("sum");
-    	}
+		ResultSet result = preparedStatement.executeQuery();
+		if(result.first()) {
+			sum = result.getInt("sum");
+		}
 		return sum;
 	}
 	/**
@@ -155,10 +155,10 @@ public class ShoppingCart {
 		int sum = 0;
 		preparedStatement = connection.prepareStatement("SELECT COUNT(idUser) as \"count\" FROM CART WHERE idUser = ?;");
 		preparedStatement.setString(1, user.getUser());
-    	ResultSet result = preparedStatement.executeQuery();
-    	if(result.first()) {
-    		sum = result.getInt("count");
-    	}
+		ResultSet result = preparedStatement.executeQuery();
+		if(result.first()) {
+			sum = result.getInt("count");
+		}
 		return sum;
 	}
 	public User User() {

@@ -48,12 +48,12 @@ public class UserRepository {
 	public User findUser(String idUser) throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT * FROM USER WHERE idUser = ?;");
 		preparedStatement.setString(1, idUser);
-    	ResultSet result = preparedStatement.executeQuery();
-    	User user = null;
-    	if(result.next()) {
-    		user =  new User(result.getString("idUser"), result.getString("password"), result.getString("firstname"), result.getString("lastname"),result.getString("email"));
-    	}
-    	return user;
+		ResultSet result = preparedStatement.executeQuery();
+		User user = null;
+		if(result.next()) {
+			user =  new User(result.getString("idUser"), result.getString("password"), result.getString("firstname"), result.getString("lastname"),result.getString("email"));
+		}
+		return user;
 	}
 	/**
 	 * This method executes the query that remove user from database. 
@@ -76,12 +76,12 @@ public class UserRepository {
 		preparedStatement = connection.prepareStatement("SELECT * FROM USER WHERE (firstname=? AND lastname=?);");
 		preparedStatement.setString(1, firstname);
 		preparedStatement.setString(2, lastname);
-    	ResultSet result = preparedStatement.executeQuery();
-    	User userAux = null;
-    	if(result.next()) {
-    		userAux =  new User(result.getString("idUser"), result.getString("password"), result.getString("firstname"), result.getString("lastname"),result.getString("email"));
-    	}
-    	return userAux;
+		ResultSet result = preparedStatement.executeQuery();
+		User userAux = null;
+		if(result.next()) {
+			userAux =  new User(result.getString("idUser"), result.getString("password"), result.getString("firstname"), result.getString("lastname"),result.getString("email"));
+		}
+		return userAux;
 	}
 	/**
 	 * This method allows to update user. Executes the update query.

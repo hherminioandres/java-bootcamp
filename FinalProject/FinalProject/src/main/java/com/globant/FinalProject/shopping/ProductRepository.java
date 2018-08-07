@@ -47,12 +47,12 @@ public class ProductRepository {
 	public Product findProduct(String idProduct) throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT WHERE idProduct = ?;");
 		preparedStatement.setString(1, idProduct);
-    	ResultSet result = preparedStatement.executeQuery();
-    	Product product = null;
-    	if(result.next()) {
-    		product =  new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
-    	}
-    	return product;
+		ResultSet result = preparedStatement.executeQuery();
+		Product product = null;
+		if(result.next()) {
+			product =  new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
+		}
+		return product;
 	}
 	/**
 	 * The method allows to update product. Executes the update query into database with new product information.
@@ -91,13 +91,13 @@ public class ProductRepository {
 	public ArrayList<Product> findByCategory(String category) throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT WHERE category =?;");
 		preparedStatement.setString(1, category);
-    	ResultSet result = preparedStatement.executeQuery();
-    	ArrayList<Product> products = new ArrayList<Product>();
-    	while(result.next()) {
-    		Product product = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
-    		products.add(product);
-    	}
-    	return products;
+		ResultSet result = preparedStatement.executeQuery();
+		ArrayList<Product> products = new ArrayList<Product>();
+		while(result.next()) {
+			Product product = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
+			products.add(product);
+		}
+		return products;
 	}
 	/**
 	 * The method return a list with all products. Executes a query that return all products in product Table
@@ -106,12 +106,12 @@ public class ProductRepository {
 	 */
 	public ArrayList<Product> getProducts() throws SQLException {
 		preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT;");
-    	ResultSet result = preparedStatement.executeQuery();
-    	ArrayList<Product> products = new ArrayList<Product>();
-    	while(result.next()) {
-    		Product product = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
-    		products.add(product);
-    	}
-    	return products;
+		ResultSet result = preparedStatement.executeQuery();
+		ArrayList<Product> products = new ArrayList<Product>();
+		while(result.next()) {
+			Product product = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
+			products.add(product);
+		}
+		return products;
 	}
 }
