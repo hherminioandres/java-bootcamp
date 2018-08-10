@@ -1,0 +1,10 @@
+*.prefs
+*.properties
+*.cmd
+*.jar
+FinalProject/FinalProject/mvnw
+FinalProject/FinalProject/.project
+FinalProject/FinalProject/.classpath
+*.MF
+*.class
+FinalProject/FinalProject/target/classes/META-INF/maven/com.globant/FinalProject/pom.xml

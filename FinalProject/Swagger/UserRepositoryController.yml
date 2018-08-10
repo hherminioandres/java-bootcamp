@@ -1,0 +1,90 @@
+openapi: 3.0.1
+info:
+  title: defaultTitle
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /users/idUser:
+    get:
+      description: Obtain a given user 
+      responses:
+        '200':
+          description: Ok
+    delete:
+      description: Remove user to user repository
+      responses:
+        '200':
+          description: Ok
+        '405':
+          description: Method not supported. Not exists idUser as parameter
+  /users:
+    put:
+      description: Update user to repository
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idUser:
+                  type: string
+                firstname:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+                lastname:
+                  type: string
+            examples:
+              '0':
+                value: { "idUser": "idUser",
+                          "firstname": "name",
+                          "lastname": "lastname",
+                          "email": "user@gmail.com",
+                          "password": "1234"
+                        }
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Data not found
+    post:
+      description: Add new user to user repository
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idUser:
+                  type: string
+                firstname:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+                lastname:
+                  type: string
+            examples:
+              '0':
+                value: { "idUser": "idUser",
+                          "firstname": "name",
+                          "lastname": "lastname",
+                          "email": "user@gmail.com",
+                          "password": "1234"
+                        }
+      responses:
+        '201':
+          description: Ok
+        '400':
+          description: Data not found
+  /users/firstname/lastname:
+    get:
+      description: User finde through its firstname and lastname 
+      responses:
+        '200':
+          description: Ok

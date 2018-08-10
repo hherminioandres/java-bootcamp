@@ -1,0 +1,95 @@
+openapi: 3.0.1
+info:
+  title: defaultTitle
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /api/cart:
+    get:
+      description: Get all products into the cart
+      responses:
+        '200':
+          description: Ok
+    post:
+      description: Add new product to cart 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                idProduct:
+                  type: string
+            examples:
+              '0':
+                value: |2-
+                      {
+                          "idProduct": "005",
+                          "quantity": 10
+                      }
+      responses:
+        '201':
+          description: Ok
+        '400':
+          description: Data not found
+  /api/cart/calculate:
+    get:
+      description: Total value of products into cart
+      responses:
+        '200':
+          description: Ok
+  /api/cart/quantity:
+    get:
+      description: Quantity of products into cart
+      responses:
+        '200':
+          description: Ok
+  /api/login:
+    post:
+      description: Login user 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: string
+                idProduct:
+                  type: string
+            examples:
+              '0':
+                value: |2-
+                      {
+                          "idUser": "idUser",
+                          "password": "pass"
+                      }
+      responses:
+        '201':
+          description: Ok
+        '400':
+          description: Data not found
+  /api/cart/idProduct:
+    delete:
+      description: Remove a given product to cart
+      responses:
+        '200':
+          description: Ok
+        '405':
+          description: Method not supported. Not exists idProduct as parameter
+  /api/cart/pay:
+    get:
+      description: Pay the buy and generate the corresponding ticket
+      responses:
+        '200':
+          description: Ok
+  /api/logout/idUser:
+    delete: 
+      description: Remove the session
+      responses: 
+        '200':
+          description: Ok
