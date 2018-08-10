@@ -1,7 +1,5 @@
 package com.globant.FinalProject.Repositry;
 
-import java.sql.SQLException;
-
 /**
  * This interface defines the basic behavior of a repository
  * @author Herminio Andres Hernandez
@@ -10,8 +8,8 @@ import java.sql.SQLException;
  */
 public interface IRepository <T>{
 
-	public T add(T element) throws SQLException;
-	public T find(String element) throws SQLException;
-	public T update(T element) throws SQLException;
-	public void delete(String elements) throws SQLException;
+	public T add(T element);
+	public T find(String element);
+	public T update(T element);
+	public void delete(String elements);
 }

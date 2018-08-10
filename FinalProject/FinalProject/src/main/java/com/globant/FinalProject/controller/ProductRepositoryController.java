@@ -24,49 +24,72 @@ public class ProductRepositoryController {
 
 	static ProductRepository productRepository = null;
 	
-	public ProductRepositoryController() throws SQLException {
+	public ProductRepositoryController() {
 		productRepository = getRepository();
 	}
-	
+	/**
+	 * This method handles request and response to "add" method of products repository. 
+	 * @param product 
+	 * @return created product. 
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public Product createUser(@RequestBody Product product) throws SQLException {
+	public Product createProduct(@RequestBody Product product) {
 		return productRepository.add(product);
 	}
-	
+	/**
+	 *  The method handles request and response to "find" method of products repository. 
+	 * @param idProduct
+	 * @return
+	 */
 	@RequestMapping(value = "/{idProduct}", method = RequestMethod.GET)
 	@ResponseBody
-	public Product findUser(@PathVariable("idProduct") String idProduct) throws SQLException {
+	public Product findProduct(@PathVariable("idProduct") String idProduct) {
 		return productRepository.find(idProduct);
 	}
-	
+	/**
+	 * This method handles request and response to "getProducts" method of products repository.
+	 * @return
+	 * @throws SQLException
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public List<Product> getProducts() throws SQLException {
 		return productRepository.getProducts();
 	}
-	
+	/**
+	 * This method handles request and response to "findByCategory" method of products repository.
+	 * @param category
+	 * @return Products list that match
+	 */
 	@RequestMapping(path = "/category/{category}", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Product> findCategory(@PathVariable("category") String category) throws SQLException{
+	public List<Product> findCategory(@PathVariable("category") String category) {
 		return productRepository.findByCategory(category);
 	}
-	
+	/**
+	 * The method handles request and response to "update" method of products repository.
+	 * @param product
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public Product updateUser(@RequestBody Product product) throws SQLException {
+	public Product updateProduct(@RequestBody Product product) {
 		return productRepository.update(product);
 	}
-	
+	/**
+	 * The method handles request and response to "delete" method of products repository.
+	 * @param idProduct
+	 */
 	@RequestMapping(value = "/{idProduct}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteUser(@PathVariable("idProduct") String idProduct) throws SQLException {
+	public void deleteProduct(@PathVariable("idProduct") String idProduct) {
 		productRepository.delete(idProduct);
 	}
 	
-	public static ProductRepository getRepository() throws SQLException{
+	public static ProductRepository getRepository() {
 		if(productRepository == null) {
 			productRepository = new ProductRepository();
 		}

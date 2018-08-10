@@ -22,29 +22,28 @@ public class ShoppingCart {
 	
 	private Connection connection = null;
 	private PreparedStatement preparedStatement = null;
-	private User user;
-	
-	/**
-	 * Constructor of shopping cart.
-	 */
-	public ShoppingCart(User user) throws SQLException {
-		this.user = user;
-		connection = MySQLConnection.getConnection();
-	}
+	private ResultSet result = null;
 	/**
 	 * The method executes a query that obtain the quantity of given product.  
 	 * @param idProduct
 	 * @return
 	 * @throws SQLException
 	 */
-	public int getQuantityProduct(String idProduct) throws SQLException {
+	public int getQuantityProduct(User user, String idProduct) {
 		int count = 0;
-		preparedStatement = connection.prepareStatement("SELECT quantity FROM CART WHERE (idProduct=? AND idUser = ?)");
-		preparedStatement.setString(1, idProduct);
-		preparedStatement.setString(2, user.getUser());
-		ResultSet result = preparedStatement.executeQuery();
-		if(result.first()) {
-			count = result.getInt("quantity");
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT quantity FROM CART WHERE (idProduct=? AND idUser = ?)");
+			preparedStatement.setString(1, idProduct);
+			preparedStatement.setString(2, user.getUser());
+			result = preparedStatement.executeQuery();
+			if(result.first()) {
+				count = result.getInt("quantity");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return count;
 	}
@@ -55,23 +54,29 @@ public class ShoppingCart {
 	 * @return
 	 * @throws SQLException
 	 */
-	public boolean addProduct(DTOBuy buy) throws SQLException {
-		int oldQuantity = getQuantityProduct(buy.getIdProduct());
-		boolean result = false;
+	public boolean addProduct(User user, DTOBuy buy) {
+		int oldQuantity = getQuantityProduct(user, buy.getIdProduct());
+		boolean resultB = false;
 		if(oldQuantity > 0) {
-			result = updateProduct(buy.getIdProduct(), buy.getQuantity()+oldQuantity);
+			resultB = updateProduct(user, buy.getIdProduct(), buy.getQuantity()+oldQuantity);
 		}else {
-			preparedStatement = connection.prepareStatement("INSERT INTO CART(idUser, idProduct, quantity) VALUES (?,?,?);");
-			preparedStatement.setString(1, user.getUser());
-			preparedStatement.setString(2, buy.getIdProduct());
-			preparedStatement.setInt(3, buy.getQuantity());
-			int i = preparedStatement.executeUpdate();
-			System.err.println("add: "+i);
-			if(i > 0) {
-				result = true;
+			try {
+				connection = MySQLConnection.getConnection();
+				preparedStatement = connection.prepareStatement("INSERT INTO CART(idUser, idProduct, quantity) VALUES (?,?,?);");
+				preparedStatement.setString(1, user.getUser());
+				preparedStatement.setString(2, buy.getIdProduct());
+				preparedStatement.setInt(3, buy.getQuantity());
+				int i = preparedStatement.executeUpdate();
+				if(i > 0) {
+					resultB = true;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				this.close();
 			}
 		}
-		return result;
+		return resultB;
 	}
 	/**
 	 * This method update the quantity field to given product and user.
@@ -80,14 +85,21 @@ public class ShoppingCart {
 	 * @return
 	 * @throws SQLException
 	 */
-	public boolean updateProduct(String idProduct, int quantity) throws SQLException {
-		preparedStatement = connection.prepareStatement("UPDATE CART SET quantity=? WHERE (idProduct=? AND idUser=?);");
-		preparedStatement.setInt(1, quantity);
-		preparedStatement.setString(2, idProduct);
-		preparedStatement.setString(3, user.getUser());
-		int i = preparedStatement.executeUpdate();
-		if(i > 0) {
-			return true; 
+	public boolean updateProduct(User user, String idProduct, int quantity) {
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("UPDATE CART SET quantity=? WHERE (idProduct=? AND idUser=?);");
+			preparedStatement.setInt(1, quantity);
+			preparedStatement.setString(2, idProduct);
+			preparedStatement.setString(3, user.getUser());
+			int i = preparedStatement.executeUpdate();
+			if(i > 0) {
+				return true; 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return false;
 	}
@@ -96,23 +108,37 @@ public class ShoppingCart {
 	 * @param idProduct
 	 * @throws SQLException
 	 */
-	public void deleteProduct(String idProduct) throws SQLException {
-		preparedStatement = connection.prepareStatement("DELETE FROM CART WHERE (idProduct=? AND idUser=?);");
-		preparedStatement.setString(1, idProduct);
-		preparedStatement.setString(2, user.getUser());
-		preparedStatement.executeUpdate();
+	public void deleteProduct(User user, String idProduct) {
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("DELETE FROM CART WHERE (idProduct=? AND idUser=?);");
+			preparedStatement.setString(1, idProduct);
+			preparedStatement.setString(2, user.getUser());
+			preparedStatement.executeUpdate();			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
+		}
 	}
 	/**
 	 * This method remove all products to the CART table.
 	 * @return
 	 * @throws SQLException
 	 */
-	public boolean deleteAllProducts() throws SQLException {
-		preparedStatement = connection.prepareStatement("DELETE FROM CART WHERE idUser=?;");
-		preparedStatement.setString(1, user.getUser());
-		int i = preparedStatement.executeUpdate();
-		if(i > 0) {
-			return true;
+	public boolean deleteAllProducts(User user) {
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("DELETE FROM CART WHERE idUser=?;");
+			preparedStatement.setString(1, user.getUser());
+			int i = preparedStatement.executeUpdate();
+			if(i > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return false;
 	}
@@ -121,15 +147,22 @@ public class ShoppingCart {
 	 *  @return
 	 *  @throws SQLException
 	 **/
-	public ArrayList<Product> getProducts() throws SQLException {
-		preparedStatement = connection.prepareStatement("SELECT p.*,c.quantity FROM PRODUCT p INNER JOIN CART c on (p.idProduct=c.idProduct) WHERE c.idUser = ?;");
-		preparedStatement.setString(1, user.getUser());
-		ResultSet result = preparedStatement.executeQuery();
+	public ArrayList<Product> getProducts(User user) {
 		ArrayList<Product> products = new ArrayList<Product>();
-		while(result.next()) {
-			Product productAux = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
-			productAux.setQuantity(result.getInt("quantity"));
-			products.add(productAux);
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT p.*,c.quantity FROM PRODUCT p INNER JOIN CART c on (p.idProduct=c.idProduct) WHERE c.idUser = ?;");
+			preparedStatement.setString(1, user.getUser());
+			result = preparedStatement.executeQuery();
+			while(result.next()) {
+				Product productAux = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
+				productAux.setQuantity(result.getInt("quantity"));
+				products.add(productAux);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return products;
 	}
@@ -138,13 +171,20 @@ public class ShoppingCart {
 	 * @return
 	 * @throws SQLException
 	 */
-	public float calculate() throws SQLException {
+	public float calculate(User user) {
 		float sum = 0;
-		preparedStatement = connection.prepareStatement("SELECT SUM(p.value*c.quantity) as \"sum\" FROM PRODUCT p INNER JOIN CART c on (p.idProduct=c.idProduct) WHERE c.idUser = ?;");
-		preparedStatement.setString(1, user.getUser());
-		ResultSet result = preparedStatement.executeQuery();
-		if(result.first()) {
-			sum = result.getInt("sum");
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT SUM(p.value*c.quantity) as \"sum\" FROM PRODUCT p INNER JOIN CART c on (p.idProduct=c.idProduct) WHERE c.idUser = ?;");
+			preparedStatement.setString(1, user.getUser());
+			result = preparedStatement.executeQuery();
+			if(result.first()) {
+				sum = result.getInt("sum");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return sum;
 	}
@@ -153,17 +193,36 @@ public class ShoppingCart {
 	 * @return
 	 * @throws SQLException
 	 */
-	public int productQuantity() throws SQLException {
+	public int productQuantity(User user) {
 		int sum = 0;
-		preparedStatement = connection.prepareStatement("SELECT COUNT(idUser) as \"count\" FROM CART WHERE idUser = ?;");
-		preparedStatement.setString(1, user.getUser());
-		ResultSet result = preparedStatement.executeQuery();
-		if(result.first()) {
-			sum = result.getInt("count");
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT COUNT(idUser) as \"count\" FROM CART WHERE idUser = ?;");
+			preparedStatement.setString(1, user.getUser());
+			result = preparedStatement.executeQuery();
+			if(result.first()) {
+				sum = result.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return sum;
 	}
-	public User User() {
-		return user;
+	public void close() {
+		try {
+			if(connection != null) {
+				connection.close();
+			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(result != null) {
+				result.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

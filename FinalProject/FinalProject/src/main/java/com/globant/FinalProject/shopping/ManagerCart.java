@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.globant.FinalProject.DAO.MySQLConnection;
+import com.globant.FinalProject.user.User;
 
 import java.sql.Date;
 
@@ -21,6 +22,8 @@ public class ManagerCart {
 	
 	private Connection connection = null;
 	private PreparedStatement preparedStatement = null;
+	private ResultSet result = null;
+	private Statement statement = null; 
 	private int ticketNumber = -1;
 	
 	public ManagerCart() throws SQLException {
@@ -33,13 +36,12 @@ public class ManagerCart {
 	 * @return result of the save operation
 	 * @throws SQLException
 	 */
-	public boolean processBuy(ShoppingCart shoppingCart) throws SQLException {
-		boolean bool = saveBuy(shoppingCart);
-		if(!bool) {
-			return false;
+	public boolean processBuy(User user, ShoppingCart shoppingCart) {
+		boolean bool = saveBuy(user,shoppingCart);
+		if(bool) {
+			return shoppingCart.deleteAllProducts(user);
 		}
-		return shoppingCart.deleteAllProducts();
-		
+		return false;
 	}
 	/**
 	 * The method allows to insert ticket row into database. Several ticket row refer to  a given ticket.
@@ -47,26 +49,33 @@ public class ManagerCart {
 	 * @return result of the insert operation
 	 * @throws SQLException
 	 */
-	private boolean saveBuy(ShoppingCart shoppingCart) throws SQLException {
-		ArrayList<Product> products = shoppingCart.getProducts();
-		if(!products.isEmpty()) {
-			if(createTicket(shoppingCart.User().getUser())) {
-				for(Product product: products) {
-					Statement sd = connection.createStatement();
-					ResultSet result = sd.executeQuery("SELECT value FROM PRODUCT WHERE idProduct =  \""+product.getIdProduct()+"\";");
-					if(result.first()) {
-						preparedStatement = connection.prepareStatement("INSERT INTO TICKET_ROW(idTicket, idUser, idProduct, quantity, unitValue) VALUES (?,?,?,?,?);");
-						preparedStatement.setInt(1, ticketNumber);
-						preparedStatement.setString(2, shoppingCart.User().getUser());
-						preparedStatement.setString(3, product.getIdProduct());
-						preparedStatement.setInt(4, product.getQuantity());
-						preparedStatement.setFloat(5, result.getFloat("value"));
-						preparedStatement.executeUpdate();
+	private boolean saveBuy(User user, ShoppingCart shoppingCart) {
+		ArrayList<Product> products = shoppingCart.getProducts(user);
+		try {
+			if(!products.isEmpty()) {
+				if(createTicket(user.getUser())) {
+					connection = MySQLConnection.getConnection();
+					for(Product product: products) {
+						Statement statement = connection.createStatement();
+						result = statement.executeQuery("SELECT value FROM PRODUCT WHERE idProduct =  \""+product.getIdProduct()+"\";");
+						if(result.first()) {
+							preparedStatement = connection.prepareStatement("INSERT INTO TICKET_ROW(idTicket, idUser, idProduct, quantity, unitValue) VALUES (?,?,?,?,?);");
+							preparedStatement.setInt(1, ticketNumber);
+							preparedStatement.setString(2, user.getUser());
+							preparedStatement.setString(3, product.getIdProduct());
+							preparedStatement.setInt(4, product.getQuantity());
+							preparedStatement.setFloat(5, result.getFloat("value"));
+							preparedStatement.executeUpdate();
+						}
 					}
+					ticketNumber++;
+					return true;
 				}
-				ticketNumber++;
-				return true;
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return false;
 	} 
@@ -76,13 +85,20 @@ public class ManagerCart {
 	 * @return
 	 * @throws SQLException
 	 */
-	private boolean createTicket(String idUser) throws SQLException {
-		preparedStatement = connection.prepareStatement("INSERT INTO TICKET(idUser, dateBuy) VALUES (?,?);");
-		preparedStatement.setString(1, idUser);
-		preparedStatement.setDate(2, new Date(0));
-		int i = preparedStatement.executeUpdate();
-		if(i > 0) {
-			return true;
+	private boolean createTicket(String idUser) {
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("INSERT INTO TICKET(idUser, dateBuy) VALUES (?,?);");
+			preparedStatement.setString(1, idUser);
+			preparedStatement.setDate(2, new Date(0));
+			int i = preparedStatement.executeUpdate();
+			if(i > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return false;
 	}
@@ -91,12 +107,37 @@ public class ManagerCart {
 	 * @return number ticket
 	 * @throws SQLException
 	 */
-	private int getNumberTicket() throws SQLException {
-		Statement sd = connection.createStatement();
-		ResultSet result = sd.executeQuery("SELECT idTicket FROM TICKET ORDER BY idTicket DESC LIMIT 1");
-		if(result.first()) {
-			return result.getInt("idTicket")+1;
+	private int getNumberTicket() {
+		try {
+			connection = MySQLConnection.getConnection();
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT idTicket FROM TICKET ORDER BY idTicket DESC LIMIT 1");
+			if(result.first()) {
+				return result.getInt("idTicket")+1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return 0;
+	}
+	public void close() {
+		try {
+			if(connection != null) {
+				connection.close();
+			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(result != null) {
+				result.close();
+			}
+			if(statement != null) {
+				statement.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

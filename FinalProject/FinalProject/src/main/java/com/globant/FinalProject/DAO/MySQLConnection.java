@@ -15,8 +15,7 @@ public class MySQLConnection {
 	public static Connection connection = null;
 
 	public static Connection getConnection() throws SQLException {
-		if(connection == null)
-			connection = DriverManager.getConnection(URL, USER, PASS);
+		connection = DriverManager.getConnection(URL, USER, PASS);
 		return connection;
 	}
 	

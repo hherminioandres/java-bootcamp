@@ -2,15 +2,15 @@ package com.globant.FinalProject.user;
 
 /**
  * This class represents a user registration that contains idUser and password. Is used to login.
- * @author her_1
+ * @author Herminio Andres Hernandez
  *
  */
-public class Registration {
+public class Authentication {
 
 	private String idUser;
 	private String password;
 	
-	public Registration(String idUser, String password) {
+	public Authentication(String idUser, String password) {
 		this.idUser = idUser;
 		this.password = password;
 	}

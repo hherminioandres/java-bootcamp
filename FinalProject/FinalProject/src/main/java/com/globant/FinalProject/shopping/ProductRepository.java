@@ -19,25 +19,30 @@ public class ProductRepository implements IRepository<Product> {
 	
 	private Connection connection = null;
 	private PreparedStatement preparedStatement = null;
+	private ResultSet result = null;
 	
-	public ProductRepository() throws SQLException {
-		connection = MySQLConnection.getConnection();
-	}
 	/**
 	 * The method allows to insert products into database
 	 * @param product Product to insert
 	 * @return 
 	 * @throws SQLException
 	 */
-	public Product add(Product product) throws SQLException {
-		preparedStatement = connection.prepareStatement("INSERT INTO PRODUCT(idProduct, name, category, value) VALUES (?,?,?,?);");
-		preparedStatement.setString(1, product.getIdProduct());
-		preparedStatement.setString(2, product.getName());
-		preparedStatement.setString(3, product.getCategory());
-		preparedStatement.setFloat(4, product.getValue());
-		int i = preparedStatement.executeUpdate();
-		if(i > 0) {
-			return product;
+	public Product add(Product product) {
+		try {
+			connection =  MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("INSERT INTO PRODUCT(idProduct, name, category, value) VALUES (?,?,?,?);");
+			preparedStatement.setString(1, product.getIdProduct());
+			preparedStatement.setString(2, product.getName());
+			preparedStatement.setString(3, product.getCategory());
+			preparedStatement.setFloat(4, product.getValue());
+			int i = preparedStatement.executeUpdate();
+			if(i > 0) {
+				return product;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return null;
 	}
@@ -47,13 +52,20 @@ public class ProductRepository implements IRepository<Product> {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Product find(String idProduct) throws SQLException {
-		preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT WHERE idProduct = ?;");
-		preparedStatement.setString(1, idProduct);
-		ResultSet result = preparedStatement.executeQuery();
+	public Product find(String idProduct) {
 		Product product = null;
-		if(result.next()) {
-			product =  new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT WHERE idProduct = ?;");
+			preparedStatement.setString(1, idProduct);
+			result = preparedStatement.executeQuery();
+			if(result.next()) {
+				product =  new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return product;
 	}
@@ -63,15 +75,22 @@ public class ProductRepository implements IRepository<Product> {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Product update(Product product) throws SQLException {
-		preparedStatement = connection.prepareStatement("UPDATE PRODUCT SET name=?,category=?,value=? WHERE idProduct=?;");
-		preparedStatement.setString(1, product.getName());
-		preparedStatement.setString(2, product.getCategory());
-		preparedStatement.setFloat(3, product.getValue());
-		preparedStatement.setString(4, product.getIdProduct());
-		int i = preparedStatement.executeUpdate();
-		if(i > 0) {
-			return product; 
+	public Product update(Product product) {
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("UPDATE PRODUCT SET name=?,category=?,value=? WHERE idProduct=?;");
+			preparedStatement.setString(1, product.getName());
+			preparedStatement.setString(2, product.getCategory());
+			preparedStatement.setFloat(3, product.getValue());
+			preparedStatement.setString(4, product.getIdProduct());
+			int i = preparedStatement.executeUpdate();
+			if(i > 0) {
+				return product; 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return null;
 	}
@@ -80,10 +99,18 @@ public class ProductRepository implements IRepository<Product> {
 	 * @param idProduct
 	 * @throws SQLException
 	 */
-	public void delete(String idProduct) throws SQLException {
-		preparedStatement = connection.prepareStatement("DELETE FROM PRODUCT WHERE idProduct=?;");
-		preparedStatement.setString(1, idProduct);
-		preparedStatement.executeUpdate();
+	public void delete(String idProduct) {
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("DELETE FROM PRODUCT WHERE idProduct=?;");
+			preparedStatement.setString(1, idProduct);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
+		}
+
 	}
 	/**
 	 * This method allows to find products by given category.
@@ -91,14 +118,21 @@ public class ProductRepository implements IRepository<Product> {
 	 * @return List of products
 	 * @throws SQLException
 	 */
-	public List<Product> findByCategory(String category) throws SQLException {
-		preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT WHERE category =?;");
-		preparedStatement.setString(1, category);
-		ResultSet result = preparedStatement.executeQuery();
+	public List<Product> findByCategory(String category) {
 		ArrayList<Product> products = new ArrayList<Product>();
-		while(result.next()) {
-			Product product = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
-			products.add(product);
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT WHERE category =?;");
+			preparedStatement.setString(1, category);
+			result = preparedStatement.executeQuery();
+			while(result.next()) {
+				Product product = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
+				products.add(product);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return products;
 	}
@@ -107,14 +141,36 @@ public class ProductRepository implements IRepository<Product> {
 	 * @return 
 	 * @throws SQLException
 	 */
-	public List<Product> getProducts() throws SQLException {
-		preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT;");
-		ResultSet result = preparedStatement.executeQuery();
+	public List<Product> getProducts() {
 		ArrayList<Product> products = new ArrayList<Product>();
-		while(result.next()) {
-			Product product = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
-			products.add(product);
+		try {
+			connection = MySQLConnection.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT * FROM PRODUCT;");
+			result = preparedStatement.executeQuery();
+			while(result.next()) {
+				Product product = new Product(result.getString("idProduct"), result.getString("name"), result.getString("category"), result.getFloat("value"));
+				products.add(product);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
 		}
 		return products;
+	}
+	public void close() {
+		try {
+			if(connection != null) {
+				connection.close();
+			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(result != null) {
+				result.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
